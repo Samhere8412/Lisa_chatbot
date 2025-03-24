@@ -1,17 +1,14 @@
-"""
-Admin command handlers for the bot
-"""
 import asyncio
 from pyrogram import filters
 from pyrogram.types import Message
 from pyrogram.errors import FloodWait
-
 from db import get_all_users, get_all_chats, get_users_count, get_chats_count
 from utils import is_admin, get_readable_time
 from config import OWNER_ID
+from LisaX import bot
 
 # Broadcast command handler
-@filters.command("broadcast")
+@bot.on_message(filters.command("broadcast"))
 @is_admin
 async def broadcast_command(client, message: Message):
     """Broadcast a message to all users (admin only)"""
@@ -139,7 +136,7 @@ async def broadcast_command(client, message: Message):
     )
 
 # Chat broadcast command handler
-@filters.command("chatbroadcast")
+@bot.on_message(filters.command("chatbroadcast"))
 @is_admin
 async def chat_broadcast_command(client, message: Message):
     """Broadcast a message to all chats (admin only)"""
@@ -267,7 +264,7 @@ async def chat_broadcast_command(client, message: Message):
     )
 
 # Admin stats command handler
-@filters.command("adminstats")
+@bot.on_message(filters.command("adminstats"))
 @is_admin
 async def admin_stats_command(client, message: Message):
     """Get detailed bot statistics (admin only)"""
