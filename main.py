@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-LisaX Bot - A simple Telegram bot built with Pyrogram and MongoDB
-Run this file to start the bot directly
+LisaX Bot - A Telegram bot built with Pyrogram
 """
-
-import os
-import sys
-import logging
 import asyncio
-from LisaX import bot
-from LisaX.__main__ import main
+import logging
+import os
+from pyrogram import Client
+from pyrogram.enums import ParseMode
+from dotenv import load_dotenv
+from config import API_ID, API_HASH, BOT_TOKEN
+from db import init_db, create_indexes, update_bot_stats
 
 # Configure logging
 logging.basicConfig(
@@ -18,22 +18,49 @@ logging.basicConfig(
 )
 logger = logging.getLogger("LisaXBot")
 
-if __name__ == "__main__":
+# Create the bot client
+bot = Client(
+    "LisaXBot",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN,
+    parse_mode=ParseMode.MARKDOWN
+)
+
+# Import handlers - this must be done after creating the bot instance
+from handlers import *
+
+async def main():
+    """Start the bot and set up the database"""
     try:
-        logger.info("Starting LisaX Bot...")
+        logger.info("Initializing database...")
+        init_db()
         
-        # Check if bot is initialized
-        if not bot:
-            logger.critical("Bot client not initialized. Please check your environment variables.")
-            sys.exit(1)
+        logger.info("Starting bot...")
+        await bot.start()
         
-        # Run the bot
-        asyncio.run(main())
+        # Get bot information
+        bot_info = await bot.get_me()
+        logger.info(f"Bot started as @{bot_info.username}")
+        
+        # Create database indexes
+        await create_indexes()
+        
+        # Update bot stats
+        await update_bot_stats(bot)
+        
+        logger.info("Bot is now running...")
+        await bot.idle()
         
     except KeyboardInterrupt:
         logger.info("Bot stopped by user")
-        sys.exit(0)
-        
     except Exception as e:
         logger.error(f"Error starting bot: {e}")
-        sys.exit(1)
+    finally:
+        # Always properly close the bot client when exiting
+        if bot:
+            await bot.stop()
+
+if __name__ == "__main__":
+    # Use asyncio.run to handle the event loop properly
+    asyncio.run(main())
