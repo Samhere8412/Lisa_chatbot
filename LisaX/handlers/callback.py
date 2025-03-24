@@ -1,14 +1,11 @@
-"""
-Callback query handlers for the bot
-"""
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
-
 from db import get_users_count, get_chats_count
 from config import WELCOME_MESSAGE, HELP_MESSAGE
+from LisaX import bot
 
 # Handle all callback queries
-@filters.callback_query()
+@bot.on_callback_query()
 async def handle_callback_query(client, callback_query: CallbackQuery):
     """Handle callback queries from inline buttons"""
     # Get callback data
