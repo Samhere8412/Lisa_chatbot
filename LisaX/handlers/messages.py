@@ -4,8 +4,8 @@ from db import add_user, add_chat
 from config import DEFAULT_WELCOME_MESSAGE
 from LisaX import bot
 
-# Handle private messages
-@bot.on_message(filters.private & ~filters.command())
+# Handle private messages (all messages that are not commands)
+@bot.on_message(filters.private & ~filters.command([]))
 async def handle_private_message(client, message: Message):
     """Handle private messages"""
     # Add user to database
@@ -16,14 +16,10 @@ async def handle_private_message(client, message: Message):
         last_name=message.from_user.last_name
     )
     
-    # If the message doesn't start with a command character,
-    # and it's not already been handled by a command handler,
-    # we can reply with a default message or implement custom logic here
-    
     # For now, we're not replying to regular messages to avoid spamming the user
 
-# Handle group messages
-@bot.on_message(filters.group & ~filters.command())
+# Handle group messages (all messages that are not commands)
+@bot.on_message(filters.group & ~filters.command([]))
 async def handle_group_message(client, message: Message):
     """Handle group messages"""
     # Add chat to database
