@@ -20,3 +20,9 @@ bot = Client(
     api_hash=API_HASH,
     bot_token=BOT_TOKEN
 )
+
+# Initialize handlers
+from LisaX.handlers import commands
+from LisaX.handlers import messages
+from LisaX.handlers import callback
+from LisaX.handlers import admin
