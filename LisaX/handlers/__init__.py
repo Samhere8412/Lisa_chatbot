@@ -1,2 +1,1 @@
-# Initialize handlers package
-# The handlers will be imported when the bot is started
+# Just an empty __init__.py file to make the directory a package
