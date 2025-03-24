@@ -1,4 +1,3 @@
 #!/bin/bash
-
-echo "Starting LisaX Bot..."
-python3 main.py "$@"
+echo "Starting Lisa Telegram Bot..."
+python3 main.py
