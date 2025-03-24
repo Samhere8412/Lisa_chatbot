@@ -1,16 +1,12 @@
-"""
-Basic command handlers for the bot
-"""
-
-import time
 from pyrogram import filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-
+import time
 from db import add_user, get_users_count, get_chats_count
 from config import WELCOME_MESSAGE, HELP_MESSAGE
+from LisaX import bot
 
 # Start command handler
-@filters.command("start")
+@bot.on_message(filters.command("start"))
 async def start_command(client, message: Message):
     """Handle the /start command"""
     # Add user to database
@@ -38,7 +34,7 @@ async def start_command(client, message: Message):
     )
 
 # Help command handler
-@filters.command("help")
+@bot.on_message(filters.command("help"))
 async def help_command(client, message: Message):
     """Handle the /help command"""
     # Create inline keyboard
@@ -58,7 +54,7 @@ async def help_command(client, message: Message):
     )
 
 # Ping command handler
-@filters.command("ping")
+@bot.on_message(filters.command("ping"))
 async def ping_command(client, message: Message):
     """Handle the /ping command to check bot latency"""
     # Calculate ping
@@ -71,7 +67,7 @@ async def ping_command(client, message: Message):
     await ping_message.edit_text(f"✅ Pong! `{ping_time}ms`")
 
 # Stats command handler
-@filters.command("stats")
+@bot.on_message(filters.command("stats"))
 async def stats_command(client, message: Message):
     """Handle the /stats command to show bot statistics"""
     # Get stats from database
@@ -103,7 +99,7 @@ async def stats_command(client, message: Message):
     )
 
 # Echo command handler
-@filters.command("echo")
+@bot.on_message(filters.command("echo"))
 async def echo_command(client, message: Message):
     """Echo back the user's message"""
     # Check if message contains text to echo
