@@ -1,14 +1,11 @@
-"""
-Message handlers for the bot
-"""
 from pyrogram import filters
 from pyrogram.types import Message
-
 from db import add_user, add_chat
 from config import DEFAULT_WELCOME_MESSAGE
+from LisaX import bot
 
 # Handle private messages
-@filters.private
+@bot.on_message(filters.private & ~filters.command())
 async def handle_private_message(client, message: Message):
     """Handle private messages"""
     # Add user to database
@@ -26,7 +23,7 @@ async def handle_private_message(client, message: Message):
     # For now, we're not replying to regular messages to avoid spamming the user
 
 # Handle group messages
-@filters.group
+@bot.on_message(filters.group & ~filters.command())
 async def handle_group_message(client, message: Message):
     """Handle group messages"""
     # Add chat to database
@@ -46,7 +43,7 @@ async def handle_group_message(client, message: Message):
         )
 
 # Welcome new members
-@filters.new_chat_members
+@bot.on_message(filters.new_chat_members)
 async def welcome_new_members(client, message: Message):
     """Welcome new members in groups"""
     # Get bot's user ID
