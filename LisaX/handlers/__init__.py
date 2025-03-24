@@ -1,5 +1,2 @@
-# Import all handlers modules
-from LisaX.handlers import commands
-from LisaX.handlers import messages
-from LisaX.handlers import callback
-from LisaX.handlers import admin
+# Initialize handlers package
+# The handlers will be imported when the bot is started
