@@ -5,6 +5,12 @@ import logging
 from LisaX import bot
 from db import create_indexes, update_bot_stats
 
+# Import handlers explicitly here
+import LisaX.handlers.commands
+import LisaX.handlers.callback
+import LisaX.handlers.messages
+import LisaX.handlers.admin
+
 logger = logging.getLogger(__name__)
 
 async def main():
